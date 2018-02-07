@@ -1,0 +1,13 @@
+[Unit]
+Description=Graft Daemon
+After=network.target
+
+[Service]
+Type=forking
+User=graft
+GuessMainPID=no
+ExecStart=/usr/local/src/GraftNetwork/build/release/bin/graftnoded --rpc-bind-ip 127.0.0.1 --detach
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
