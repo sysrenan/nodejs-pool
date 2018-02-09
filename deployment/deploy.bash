@@ -157,7 +157,8 @@ rm -rf $CADDY_DOWNLOAD_DIR
 
 # Defining ENV Vars
 cd ~
-sudo env PATH=$PATH:`pwd`/.nvm/versions/node/v8.9.3/bin `pwd`/.nvm/versions/node/v8.9.3/lib/node_modules/pm2/bin/pm2 startup systemd -u ${CURUSER} --hp `pwd`
+NVMVER=$(ls ~/.nvm/versions/node/ | head -n1 )
+sudo env PATH=$PATH:`pwd`/.nvm/versions/node/${NVMVER}/bin `pwd`/.nvm/versions/node/${NVMVER}/lib/node_modules/pm2/bin/pm2 startup systemd -u ${CURUSER} --hp `pwd`
 
 # Install PM2
 cd ~/nodejs-pool
@@ -184,24 +185,23 @@ sleep 10s
 
 # Defining ENV Vars
 cd ~/nodejs-pool/sql_sync/
-env PATH=$PATH:`pwd`/.nvm/versions/node/v8.9.3/bin node sql_sync.js
+env PATH=$PATH:`pwd`/.nvm/versions/node/${NVMVER}/bin node sql_sync.js
 source ~/.bashrc
 source ~/.profile
 source /etc/profile
 
 # Start API Module
 cd ~/nodejs-pool
-/home/graft/.nvm/versions/node/v8.9.3/bin/pm2 start /usr/local/src/GraftNetwork/build/release/bin/graft-wallet-rpc -- --rpc-bind-port 18982 --password-file ~/walletpass-pool --wallet-file ~/${walletName}-pool --disable-rpc-login --trusted-daemon &
-
+~/.nvm/versions/node/${NVMVER}/bin/pm2 start /usr/local/src/GraftNetwork/build/release/bin/graft-wallet-rpc -- --rpc-bind-port 18982 --password-file ~/walletpass-pool --wallet-file ~/${walletName}-pool --disable-rpc-login --trusted-daemon &
 sleep 10s
-/home/graft/.nvm/versions/node/v8.9.3/bin/pm2 start init.js --name=api --log-date-format="YYYY-MM-DD HH:mm Z" -- --module=api &
-/home/graft/.nvm/versions/node/v8.9.3/bin/pm2 start init.js --name=blockManager --log-date-format="YYYY-MM-DD HH:mm Z"  -- --module=blockManager &
-/home/graft/.nvm/versions/node/v8.9.3/bin/pm2 start init.js --name=worker --log-date-format="YYYY-MM-DD HH:mm Z" -- --module=worker &
-/home/graft/.nvm/versions/node/v8.9.3/bin/pm2 start init.js --name=payments --log-date-format="YYYY-MM-DD HH:mm Z" -- --module=payments &
-/home/graft/.nvm/versions/node/v8.9.3/bin/pm2 start init.js --name=remoteShare --log-date-format="YYYY-MM-DD HH:mm Z" -- --module=remoteShare &
-/home/graft/.nvm/versions/node/v8.9.3/bin/pm2 start init.js --name=longRunner --log-date-format="YYYY-MM-DD HH:mm Z" -- --module=longRunner &
-/home/graft/.nvm/versions/node/v8.9.3/bin/pm2 start init.js --name=pool --log-date-format="YYYY-MM-DD HH:mm Z" -- --module=pool &
-
+/home/${CURUSER}/.nvm/versions/node/${NVMVER}/bin/pm2 start init.js --name=api --log-date-format="YYYY-MM-DD HH:mm Z" -- --module=api &
+/home/${CURUSER}/.nvm/versions/node/${NVMVER}/bin/pm2 start init.js --name=blockManager --log-date-format="YYYY-MM-DD HH:mm Z"  -- --module=blockManager &
+/home/${CURUSER}/.nvm/versions/node/${NVMVER}/bin/pm2 start init.js --name=worker --log-date-format="YYYY-MM-DD HH:mm Z" -- --module=worker &
+/home/${CURUSER}/.nvm/versions/node/${NVMVER}/bin/pm2 start init.js --name=payments --log-date-format="YYYY-MM-DD HH:mm Z" -- --module=payments &
+/home/${CURUSER}/.nvm/versions/node/${NVMVER}/bin/pm2 start init.js --name=remoteShare --log-date-format="YYYY-MM-DD HH:mm Z" -- --module=remoteShare &
+/home/${CURUSER}/.nvm/versions/node/${NVMVER}/bin/pm2 start init.js --name=longRunner --log-date-format="YYYY-MM-DD HH:mm Z" -- --module=longRunner &
+/home/${CURUSER}/.nvm/versions/node/${NVMVER}/bin/pm2 start init.js --name=pool --log-date-format="YYYY-MM-DD HH:mm Z" -- --module=pool &
+/home/${CURUSER}/.nvm/versions/node/${NVMVER}/bin/pm2 save
 sleep 10s
 clear
 cd ~

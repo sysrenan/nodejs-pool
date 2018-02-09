@@ -331,7 +331,7 @@
     "id": 46,
     "module": "payout",
     "item": "bestExchange",
-    "item_value": "xmrto",
+    "item_value": "grfto",
     "item_type": "string",
     "Item_desc": "Current best exchange"
   },
